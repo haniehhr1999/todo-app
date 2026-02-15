@@ -39,7 +39,7 @@ h1{
   margin-bottom: 20px;
 }
 
-input {
+/* input {
   padding: 10px 20px;
   border: none;
   border-radius: 10000px;
@@ -47,7 +47,7 @@ input {
   margin: 10px 0;
   outline: none;
 
-}
+} */
 
 button.btn {
   padding: 10px;
@@ -72,7 +72,7 @@ li {
   border: none;
   border-radius: 10000px;
   width: 100%;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(145, 100, 100);
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
@@ -97,4 +97,15 @@ li {
 .bg-blueviolet{
   background-color: blueviolet;
 
+}
+
+
+.modal_position{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 100000;
+  margin: auto;
 }

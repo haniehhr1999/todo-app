@@ -34,7 +34,9 @@ function App() {
   const [todos, setTodos] = useState<TodoType[]>([]);
 
   const [value, setValue] = useState<string>("");
+
   const [modalAddTask, setModalAddTask] = useState<boolean>(false);
+  const [errorInput, setErrorInput] = useState<boolean>(false);
 
   const addTodo = (title: string) => {
     console.log(title);
@@ -216,11 +218,17 @@ function App() {
       >
         <GridItem className="bg-red" colSpan={1}>
           <Box>
-            <Avatar.Root shape="full" size="lg">
-              <Avatar.Fallback name="Random User" />
-              <Avatar.Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04" />
-            </Avatar.Root>
-            سلام حانیه
+            <Flex align="center">
+              <Avatar.Root shape="full" size="lg">
+                <Avatar.Fallback name="Random User" />
+                <Avatar.Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04" />
+              </Avatar.Root>
+              <div className="mx-3">
+
+              سلام مربی
+              </div>
+            </Flex>
+
             <Listbox.Root collection={collection}>
               <Listbox.Content divideY="1px">
                 {collection.group().map(([category, items]) => (
@@ -251,9 +259,8 @@ function App() {
             </Button>
           </HStack>
           {modalAddTask && (
-            <Box>
-
-              <Card.Root  variant="elevated">
+            <Box className="modal_position w-2/3 h-[400px]">
+              <Card.Root variant="elevated">
                 <Card.Body gap="2">
                   <Flex gap="4" justify="space-between">
                     <Card.Title mb="2">افزودن وظیفه</Card.Title>
@@ -265,25 +272,30 @@ function App() {
                   <Card.Description>
                     <Field.Root invalid>
                       <Input
+                        className="border border-solid !border-indigo-500"
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
                         type="text"
                         placeholder="چیزی تایپ کنید ..."
                       />
-                      <Field.ErrorText>این فیلد باید حتما پر شده باشد !</Field.ErrorText>
+                      {errorInput && (
+                        <Field.ErrorText>
+                          این فیلد باید حتما پر شده باشد !
+                        </Field.ErrorText>
+                      )}
                     </Field.Root>
                     <div className="todolist">
-                  <ul>
-                    {todos.map((todo) => (
-                      <Todo
-                        key={todo.id}
-                        todo={todo}
-                        deleteTodo={deleteTodo}
-                        toggleComplete={toggleComplete}
-                      />
-                    ))}
-                  </ul>
-                </div>
+                      <ul>
+                        {todos.map((todo) => (
+                          <Todo
+                            key={todo.id}
+                            todo={todo}
+                            deleteTodo={deleteTodo}
+                            toggleComplete={toggleComplete}
+                          />
+                        ))}
+                      </ul>
+                    </div>
                   </Card.Description>
                 </Card.Body>
                 <Card.Footer justifyContent="flex-end">
@@ -293,7 +305,7 @@ function App() {
               </Card.Root>
             </Box>
           )}
-          <Heading size="2xl" className="">
+          <Heading size="xl" className="">
             لیست کل وظیفه ها{" "}
           </Heading>
           <Flex gap="4">
