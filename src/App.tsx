@@ -1,5 +1,11 @@
 import { useState } from "react";
 import "./App.css";
+import {
+  IoMdAdd,
+  IoMdAddCircleOutline,
+  IoMdCloseCircleOutline,
+} from "react-icons/io";
+
 import swal from "sweetalert";
 import Todo from "./components/Todo";
 import {
@@ -12,7 +18,10 @@ import {
   Button,
   Card,
   Flex,
+  HStack,
+  Heading,
 } from "@chakra-ui/react";
+// import { RiMailLine } from "react-icons/ri";
 
 function App() {
   type TodoType = {
@@ -23,6 +32,7 @@ function App() {
   const [todos, setTodos] = useState<TodoType[]>([]);
 
   const [value, setValue] = useState<string>("");
+  const [modalAddTask, setModalAddTask] = useState<boolean>(false);
 
   const addTodo = (title: string) => {
     console.log(title);
@@ -82,72 +92,117 @@ function App() {
 
   const collection = createListCollection({
     items: [
-      { label: "Naruto", value: "naruto", category: "Anime" },
-      { label: "One Piece", value: "one-piece", category: "Anime" },
-      { label: "Dragon Ball", value: "dragon-ball", category: "Anime" },
+      { label: "گفنگو", value: "naruto", category: "اصلی_____" },
+      { label: "پروژه ها", value: "one-piece", category: "اصلی_____" },
+      { label: "وظایف", value: "dragon-ball", category: "اصلی_____" },
+      { label: "یادداشت های من", value: "dragon-ball", category: "اصلی_____" },
       {
-        label: "مهشاد فریدیار",
-        value: "the-shawshank-redemption",
-        category: "همکارانم ",
+        label: "آرزو احمدی",
+        value: "arzu-ahmadi",
+        category: "دانشجویانم ",
       },
       {
-        label: "فاطمه سیف الهی",
-        value: "the-godfather",
-        category: "همکارانم ",
+        label: "نگار محمدی",
+        value: "negar-mohammadi",
+        category: "دانشجویانم ",
       },
       {
-        label: "زهرا مجتهدی",
-        value: "the-dark-knight",
-        category: "همکارانم ",
+        label: "ریحانه کریمی",
+        value: "reyhane-karimi",
+        category: "دانشجویانم ",
       },
       {
-        label: "مهشاد فریدیار",
-        value: "the-shawshank-redemption",
-        category: "همکارانم ",
+        label: "هستی رضایی",
+        value: "hasti-rezaei",
+        category: "دانشجویانم ",
       },
       {
-        label: "فاطمه سیف الهی",
-        value: "the-godfather",
-        category: "همکارانم ",
+        label: "مریم شریفی",
+        value: "maryam-sharifi",
+        category: "دانشجویانم ",
       },
       {
-        label: "زهرا مجتهدی",
-        value: "the-dark-knight",
-        category: "همکارانم ",
+        label: "سارا حسینی",
+        value: "sara-hosseini",
+        category: "دانشجویانم ",
       },
       {
-        label: "مهشاد فریدیار",
-        value: "the-shawshank-redemption",
-        category: "همکارانم ",
+        label: "یگانه عباسی",
+        value: "yeganeh-abbasi",
+        category: "دانشجویانم ",
       },
       {
-        label: "فاطمه سیف الهی",
-        value: "the-godfather",
-        category: "همکارانم ",
+        label: "الناز موسوی",
+        value: "elnaz-mousavi",
+        category: "دانشجویانم ",
       },
       {
-        label: "زهرا مجتهدی",
-        value: "the-dark-knight",
-        category: "همکارانم ",
+        label: "نازنین قاسمی",
+        value: "nazanin-ghasemi",
+        category: "دانشجویانم ",
       },
       {
-        label: "مهشاد فریدیار",
-        value: "the-shawshank-redemption",
-        category: "همکارانم ",
+        label: "بهاره اکبری",
+        value: "bahare-akbari",
+        category: "دانشجویانم ",
       },
       {
-        label: "فاطمه سیف الهی",
-        value: "the-godfather",
-        category: "همکارانم ",
+        label: "حدیث نادری",
+        value: "hadis-naderi",
+        category: "دانشجویانم ",
       },
       {
-        label: "زهرا مجتهدی",
-        value: "the-dark-knight",
-        category: "همکارانم ",
+        label: "سمانه کاظمی",
+        value: "samane-kazemi",
+        category: "دانشجویانم ",
+      },
+      {
+        label: "پریناز یوسفی",
+        value: "parinaz-yousefi",
+        category: "دانشجویانم ",
+      },
+      {
+        label: "مهسا رحیمی",
+        value: "mahsa-rahimi",
+        category: "دانشجویانم ",
+      },
+      {
+        label: "شقایق توکلی",
+        value: "shaghayegh-tavakoli",
+        category: "دانشجویانم ",
+      },
+      {
+        label: "زهرا ملکی",
+        value: "zahra-maleki",
+        category: "دانشجویانم ",
+      },
+      {
+        label: "ترانه مرادی",
+        value: "taraneh-moradi",
+        category: "دانشجویانم ",
+      },
+      {
+        label: "آیدا رستمی",
+        value: "aida-rostami",
+        category: "دانشجویانم ",
+      },
+      {
+        label: "نرگس امیری",
+        value: "narges-amiri",
+        category: "دانشجویانم ",
+      },
+      {
+        label: "پریسا جعفری",
+        value: "parisa-jafari",
+        category: "دانشجویانم ",
       },
     ],
     groupBy: (item) => item.category,
   });
+
+  const showModalAddTask = () => {
+    setModalAddTask(true);
+  };
 
   return (
     <div className="container">
@@ -182,44 +237,67 @@ function App() {
           </Box>
         </GridItem>
 
-        <GridItem className="bg-blueviolet" colSpan={4}>
-          <Box>
-            <div className="box-todo">
-              <h1>To Do List </h1>
-              <input
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                type="text"
-                placeholder="چیزی تایپ کنید ..."
-              />
-              <button className="btn" onClick={handleAdd}>افزودن وظیفه</button>
+        <GridItem className=" " colSpan={4}>
+          <HStack style={{ margin: "10px 0" }}>
+            <Button
+              colorPalette="teal"
+              variant="solid"
+              onClick={showModalAddTask}
+            >
+              <IoMdAdd />
+              افزودن وظیفه
+            </Button>
+          </HStack>
+          {modalAddTask && (
+            <Box>
+              <div className="box-todo">
+                <Flex gap="4" justify="space-between">
+                  <h1>افزودن وظیفه</h1>
 
-              <div className="todolist">
-                <ul>
-                  {todos.map((todo) => (
-                    <Todo
-                      key={todo.id}
-                      todo={todo}
-                      deleteTodo={deleteTodo}
-                      toggleComplete={toggleComplete}
-                    />
-                  ))}
-                </ul>
+                  <IoMdCloseCircleOutline
+                    onClick={() => setModalAddTask(false)}
+                  />
+                </Flex>
+
+                <input
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  type="text"
+                  placeholder="چیزی تایپ کنید ..."
+                />
+                <button className="btn" onClick={handleAdd}>
+                  افزودن وظیفه
+                </button>
+
+                <div className="todolist">
+                  <ul>
+                    {todos.map((todo) => (
+                      <Todo
+                        key={todo.id}
+                        todo={todo}
+                        deleteTodo={deleteTodo}
+                        toggleComplete={toggleComplete}
+                      />
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          </Box>
+            </Box>
+          )}
+          <Heading size="2xl" className="">
+            لیست کل وظیفه ها{" "}
+          </Heading>
           <Flex gap="4">
             <Box>
-              <Card.Root width="320px" variant="elevated">
+              <Card.Root
+                width="320px"
+                variant="elevated"
+                className="!bg-[#cce3de]"
+              >
                 <Card.Body gap="2">
-                  <Avatar.Root size="lg" shape="rounded">
-                    <Avatar.Image src="https://picsum.photos/200/300" />
-                    <Avatar.Fallback name="Nue Camp" />
-                  </Avatar.Root>
-                  <Card.Title mb="2">Nue Camp</Card.Title>
+                  <Card.Title mb="2">اتمام ویدیو های ریداکس</Card.Title>
                   <Card.Description>
-                    This is the card body. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit.
+                    حدود 90 ویدیو هست ک 45 تاش دیده شده از سایت تاپلرن
                   </Card.Description>
                 </Card.Body>
                 <Card.Footer justifyContent="flex-end">
@@ -229,16 +307,16 @@ function App() {
               </Card.Root>
             </Box>
             <Box>
-              <Card.Root width="320px" variant="elevated">
+              <Card.Root
+                width="320px"
+                variant="elevated"
+                className="!bg-[#f7cad0]"
+              >
                 <Card.Body gap="2">
-                  <Avatar.Root size="lg" shape="rounded">
-                    <Avatar.Image src="https://picsum.photos/200/300" />
-                    <Avatar.Fallback name="Nue Camp" />
-                  </Avatar.Root>
-                  <Card.Title mb="2">Nue Camp</Card.Title>
+                  <Card.Title mb="2">پروژه تایپ اسکریپت</Card.Title>
                   <Card.Description>
-                    This is the card body. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit.
+                    پروژه تودو لیست نا تمام مانده است و باید لینک آن در رزومه
+                    اصلاح شود
                   </Card.Description>
                 </Card.Body>
                 <Card.Footer justifyContent="flex-end">
@@ -248,16 +326,16 @@ function App() {
               </Card.Root>
             </Box>
             <Box>
-              <Card.Root width="320px" variant="elevated">
+              <Card.Root
+                width="320px"
+                variant="elevated"
+                className="!bg-[#fdfcdc]"
+              >
                 <Card.Body gap="2">
-                  <Avatar.Root size="lg" shape="rounded">
-                    <Avatar.Image src="https://picsum.photos/200/300" />
-                    <Avatar.Fallback name="Nue Camp" />
-                  </Avatar.Root>
-                  <Card.Title mb="2">Nue Camp</Card.Title>
+                  <Card.Title mb="2">مرتب کردن گیتهاب</Card.Title>
                   <Card.Description>
-                    This is the card body. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit.
+                    ریپازیتوری های گیتهاب بسیار شلوغه و خیلی هاش بدرد نمیخوره
+                    اونا رو پاک کن.
                   </Card.Description>
                 </Card.Body>
                 <Card.Footer justifyContent="flex-end">
@@ -266,26 +344,17 @@ function App() {
                 </Card.Footer>
               </Card.Root>
             </Box>
+
             <Box>
-              <Card.Root width="320px" variant="elevated">
-                <Card.Body gap="2">
-                  <Avatar.Root size="lg" shape="rounded">
-                    <Avatar.Image src="https://picsum.photos/200/300" />
-                    <Avatar.Fallback name="Nue Camp" />
-                  </Avatar.Root>
-                  <Card.Title mb="2">Nue Camp</Card.Title>
-                  <Card.Description>
-                    This is the card body. Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit.
-                  </Card.Description>
-                </Card.Body>
-                <Card.Footer justifyContent="flex-end">
-                  <Button variant="outline">View</Button>
-                  <Button>Join</Button>
-                </Card.Footer>
-              </Card.Root>
+              <div
+                onClick={showModalAddTask}
+                className="rounded-md h-[198px] w-[320px] flex justify-center items-center"
+                role="button"
+                style={{ border: "2px dashed #e0e1dd", cursor: "pointer" }}
+              >
+                <IoMdAdd />
+              </div>
             </Box>
-            
           </Flex>
         </GridItem>
       </Grid>
