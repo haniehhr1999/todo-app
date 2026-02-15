@@ -20,6 +20,8 @@ import {
   Flex,
   HStack,
   Heading,
+  Field,
+  Input,
 } from "@chakra-ui/react";
 // import { RiMailLine } from "react-icons/ri";
 
@@ -250,26 +252,27 @@ function App() {
           </HStack>
           {modalAddTask && (
             <Box>
-              <div className="box-todo">
-                <Flex gap="4" justify="space-between">
-                  <h1>افزودن وظیفه</h1>
 
-                  <IoMdCloseCircleOutline
-                    onClick={() => setModalAddTask(false)}
-                  />
-                </Flex>
+              <Card.Root  variant="elevated">
+                <Card.Body gap="2">
+                  <Flex gap="4" justify="space-between">
+                    <Card.Title mb="2">افزودن وظیفه</Card.Title>
+                    <IoMdCloseCircleOutline
+                      onClick={() => setModalAddTask(false)}
+                    />
+                  </Flex>
 
-                <input
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                  type="text"
-                  placeholder="چیزی تایپ کنید ..."
-                />
-                <button className="btn" onClick={handleAdd}>
-                  افزودن وظیفه
-                </button>
-
-                <div className="todolist">
+                  <Card.Description>
+                    <Field.Root invalid>
+                      <Input
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        type="text"
+                        placeholder="چیزی تایپ کنید ..."
+                      />
+                      <Field.ErrorText>این فیلد باید حتما پر شده باشد !</Field.ErrorText>
+                    </Field.Root>
+                    <div className="todolist">
                   <ul>
                     {todos.map((todo) => (
                       <Todo
@@ -281,7 +284,13 @@ function App() {
                     ))}
                   </ul>
                 </div>
-              </div>
+                  </Card.Description>
+                </Card.Body>
+                <Card.Footer justifyContent="flex-end">
+                  {/* <Button variant="outline">View</Button> */}
+                  <Button onClick={handleAdd}>افزودن</Button>
+                </Card.Footer>
+              </Card.Root>
             </Box>
           )}
           <Heading size="2xl" className="">
