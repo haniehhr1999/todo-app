@@ -22,7 +22,15 @@ import {
   Heading,
   Field,
   Input,
+  Portal,
+  Select,
 } from "@chakra-ui/react";
+
+import allProjects from "./utils/allProjects";
+import allUsers from "./utils/allUsers";
+import { FaPalette } from "react-icons/fa";
+// import { IoMdAddCircleOutline } from "react-icons/io";
+
 // import { RiMailLine } from "react-icons/ri";
 
 function App() {
@@ -36,6 +44,7 @@ function App() {
   const [value, setValue] = useState<string>("");
 
   const [modalAddTask, setModalAddTask] = useState<boolean>(false);
+  const [modalAddStudents, setModalAddStudents] = useState<boolean>(false);
   const [errorInput, setErrorInput] = useState<boolean>(false);
 
   const addTodo = (title: string) => {
@@ -204,6 +213,17 @@ function App() {
     groupBy: (item) => item.category,
   });
 
+  const frameworks = createListCollection({
+    items: [
+      { label: "حامد طاهری", value: "react" },
+      { label: "امی پور درخشان", value: "vue" },
+      { label: "هانی خصاف", value: "angular" },
+      { label: "دانیال فراهانی", value: "svelte" },
+      { label: "محمد شیوایی", value: "nextjs" },
+      { label: "ابوالفضل فرزین خواه", value: "nuxtjs" },
+    ],
+  });
+
   const showModalAddTask = () => {
     setModalAddTask(true);
   };
@@ -218,15 +238,17 @@ function App() {
       >
         <GridItem className="bg-red" colSpan={1}>
           <Box>
-            <Flex align="center">
-              <Avatar.Root shape="full" size="lg">
-                <Avatar.Fallback name="Random User" />
-                <Avatar.Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04" />
-              </Avatar.Root>
-              <div className="mx-3">
+            <Flex>
+              <Flex align="center">
+                <Avatar.Root shape="full" size="lg">
+                  <Avatar.Fallback name="Random User" />
+                  <Avatar.Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04" />
+                </Avatar.Root>
+                <div className="mx-3">سلام مربی</div>
+              </Flex>
+              <IoMdAddCircleOutline onClick={() => setModalAddStudents(true)} />
+                <FaPalette />
 
-              سلام مربی
-              </div>
             </Flex>
 
             <Listbox.Root collection={collection}>
@@ -251,6 +273,7 @@ function App() {
           <HStack style={{ margin: "10px 0" }}>
             <Button
               colorPalette="teal"
+              bg="brand.500"
               variant="solid"
               onClick={showModalAddTask}
             >
@@ -276,7 +299,8 @@ function App() {
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
                         type="text"
-                        placeholder="چیزی تایپ کنید ..."
+                        placeholder="عنوان وظیفه..."
+
                       />
                       {errorInput && (
                         <Field.ErrorText>
@@ -284,6 +308,137 @@ function App() {
                         </Field.ErrorText>
                       )}
                     </Field.Root>
+
+                    <Listbox.Root
+                      collection={frameworks}
+                      selectionMode="multiple"
+                      maxW="320px"
+                    >
+                      <Listbox.Label>افزودن لیست</Listbox.Label>
+                      <Listbox.Content>
+                        {frameworks.items.map((framework) => (
+                          <Listbox.Item item={framework} key={framework.value}>
+                            <Listbox.ItemText>
+                              {framework.label}
+                            </Listbox.ItemText>
+                            <Listbox.ItemIndicator />
+                          </Listbox.Item>
+                        ))}
+                      </Listbox.Content>
+                    </Listbox.Root>
+
+                    <Select.Root collection={allUsers} size="sm" width="320px">
+                      <Select.HiddenSelect />
+                      <Select.Label>Select framework</Select.Label>
+                      <Select.Control>
+                        <Select.Trigger>
+                          <Select.ValueText placeholder="Select framework" />
+                        </Select.Trigger>
+                        <Select.IndicatorGroup>
+                          <Select.Indicator />
+                        </Select.IndicatorGroup>
+                      </Select.Control>
+                      <Portal>
+                        <Select.Positioner>
+                          <Select.Content>
+                            {allUsers.items.map((framework) => (
+                              <Select.Item
+                                item={framework}
+                                key={framework.nationalcode}
+                              >
+                                {framework.name} - {framework.lastname}
+                                <Select.ItemIndicator />
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Positioner>
+                      </Portal>
+                    </Select.Root>
+
+                    <div>تعریف شده توسط : خودم</div>
+
+                    <div>انتخاب پروژه</div>
+                    <Select.Root collection={allProjects} size="sm" width="320px">
+                      <Select.HiddenSelect />
+                      <Select.Label>Select framework</Select.Label>
+                      <Select.Control>
+                        <Select.Trigger>
+                          <Select.ValueText placeholder="Select framework" />
+                        </Select.Trigger>
+                        <Select.IndicatorGroup>
+                          <Select.Indicator />
+                        </Select.IndicatorGroup>
+                      </Select.Control>
+                      <Portal>
+                        <Select.Positioner>
+                          <Select.Content>
+                            {allProjects.items.map((framework) => (
+                              <Select.Item
+                                item={framework}
+                                key={framework.value}
+                              >
+                                {framework.label}
+                                <Select.ItemIndicator />
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Positioner>
+                      </Portal>
+                    </Select.Root>
+
+                    <div>مسئول انجام : حامد طاهری</div>
+                    <div className="todolist">
+                      <ul>
+                        {todos.map((todo) => (
+                          <Todo
+                            key={todo.id}
+                            todo={todo}
+                            deleteTodo={deleteTodo}
+                            toggleComplete={toggleComplete}
+                          />
+                        ))}
+                      </ul>
+                    </div>
+                  </Card.Description>
+                </Card.Body>
+                <Card.Footer justifyContent="flex-end">
+                  {/* <Button variant="outline">View</Button> */}
+                  <Button onClick={handleAdd}>افزودن</Button>
+                </Card.Footer>
+              </Card.Root>
+            </Box>
+          )}
+
+          {modalAddStudents && (
+            <Box className="modal_position w-2/3 h-[400px]">
+              <Card.Root variant="elevated">
+                <Card.Body gap="2">
+                  <Flex gap="4" justify="space-between">
+                    <Card.Title mb="2">افزودن دانشجو</Card.Title>
+                    <IoMdCloseCircleOutline
+                      onClick={() => setModalAddStudents(false)}
+                    />
+                  </Flex>
+
+                  <Card.Description>
+                    <Field.Root invalid>
+                      <Input
+                        className="border border-solid !border-indigo-500"
+                        value={value}
+                        onChange={(e) => setValue(e.target.value)}
+                        type="text"
+                        placeholder="عنوان وظیفه..."
+                        />
+                      {errorInput && (
+                        <Field.ErrorText>
+                          این فیلد باید حتما پر شده باشد !
+                        </Field.ErrorText>
+                      )}
+                    </Field.Root>
+
+                    <div>تعریف شده توسط : خودم</div>
+
+                    <div>مسئول انجام : حامد طاهری</div>
                     <div className="todolist">
                       <ul>
                         {todos.map((todo) => (
@@ -308,7 +463,7 @@ function App() {
           <Heading size="xl" className="">
             لیست کل وظیفه ها{" "}
           </Heading>
-          <Flex gap="4">
+          <Flex gap="4" wrap="wrap">
             <Box>
               <Card.Root
                 width="320px"
